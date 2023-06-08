@@ -1,0 +1,114 @@
+#+title: Interfaces
+#+options: toc:nil
+
+# * Hooking it up
+# #+begin_src systemverilog
+#   dut dut_i (
+#     .clk,
+#     .rst,
+#     .data_in,
+#     .data_out
+#   )
+
+#   master master_i (
+#     .clk,
+#     .rst,
+#     .data_in (some_stream),
+#     .data_out (data_in)
+#   );
+
+#   slave slave_i (
+#     .clk,
+#     .rst,
+#     .data_in (data_out),
+#     .data_out (another_stream)
+#   )
+# #+end_src
+
+* What is an interface?
+- "At its lowest level, an interface is a named bundle of nets or
+  variables." -- IEEE 1800-2012 25.2.
+
+- Here's an example of what one looks like:
+  #+begin_src systemverilog
+    interface axi_stream;
+      logic clk;
+      logic reset;
+      logic valid;
+      logic ready;
+      // ... and so on
+    endinterface
+  #+end_src
+
+
+* Why is it useful?
+- Consider the port list of this DUT that uses the AXI Stream protocol for I/O:
+  #+begin_src systemverilog
+    module dut (
+      input logic       clk,
+      input logic       reset,
+      // Input stream
+      input logic       valid_i,
+      input logic [7:0] data_i,
+      output logic      ready_i,
+      // Output stream
+      output logic      valid_o,
+      output logic      data_o,
+      input logic       ready_o
+    );
+  #+end_src
+
+- This still doesn't implement a majority of the AXI Stream protocol...
+
+
+* Now, consider hooking that DUT up
+#+LATEX: \begin{columns}\begin{column}{0.5\textwidth}
+- There's a master of the DUT, and a slave of the DUT.
+- These components have their own AXI Streams.
+- Naming these signals is getting ambiguous -- lots of potential for error.
+
+#+begin_src systemverilog
+  dut dut_i (
+    //...
+    .valid_i,
+    .data_i,
+    //...
+  );
+#+end_src
+#+LATEX: \end{column} \begin{column}{0.5\textwidth}
+#+begin_src systemverilog
+  master master_i (
+    //...
+    .valid_o (valid_i),
+    .data_o  (data_i),
+    .ready_o (ready_i)
+  );
+  slave slave_i (
+    //...
+    .valid_i (valid_o),
+    .data_i  (data_o),
+    //...
+  );
+#+end_src
+
+#+LATEX: \end{column}\end{columns}
+
+* Visually
+[[./images/interface_diagram.pdf]]
+
+* With an interface...
+- Encapsulates the signals associated with a logical "stream" into a
+  bundle.
+- Turning a set of names that are often used together into a single
+  name makes life much easier, and RTL less error-prone.
+- Verification benefits: interfaces can include tasks, functions,
+  assertions.
+
+#+begin_src systemverilog
+  module dut (
+    input logic       clk,
+    input logic       reset,
+    axi_stream.slave  data_in,
+    axi_stream.master data_out
+  );
+#+end_src

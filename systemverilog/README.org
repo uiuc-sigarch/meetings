@@ -12,3 +12,52 @@ is probably not a good place to start.
 
 SIGARCH has meetings that introduce basic digital electronics, that
 material serves as a prerequisite to these slides.
+
+** Organization
+- What you need to get up and running:
+  | Done | =introduction.pdf=       | Introduction to RTL, HDLs, and some history                       |
+  |      | =getting-started.pdf=    | Writing a couple of simple RTL designs.                           |
+  |      | =verification-intro.pdf= | An introduction to simulating and verifying the designs we wrote. |
+  |      | =style-guide.pdf=        | Style guide, important to avoid errors.                           |
+
+- SystemVerilog RTL-focused syntax and semantics:
+  |             | =assignments.pdf=         |   |
+  | In progress | =interfaces.pdf=          |   |
+  |             | =modules.pdf=             |   |
+  |             | =packages.pdf=            |   |
+  |             | =types-structs-enums.pdf= |   |
+  |             | =unique-case-if.pdf=      |   |
+
+- Verification:
+  |   | =assertions.pdf=                |   |
+  |   | =classes.pdf=                   |   |
+  |   | =clocking-blocks.pdf=           |   |
+  |   | =coverage.pdf=                  |   |
+  |   | =dpi.pdf=                       |   |
+  |   | =functions-tasks.pdf=           |   |
+  |   | =oop-design-patterns.pdf=       |   |
+  |   | =randomization.pdf=             |   |
+  |   | =scheduling.pdf=                |   |
+  |   | =synchronization.pdf=           |   |
+  |   | =verification-environments.pdf= |   |
+
+
+
+-----
+** Emacs Org-Mode Users
+Emacs org-mode users, you may not have a SystemVerilog mode defined,
+since =verilog-mode= in Emacs supports SystemVerilog by default.
+Minted (the LaTeX syntax highlighting mechanism I like best) via
+pygemnts needs the language "systemverilog" to handle syntax
+highlighting correctly. (Choosing "verilog" doesn't recognize
+=interface= as a keyword, for example). Long story short, to correctly
+interact with the "systemverilog" code blocks in Emacs, just
+define a major mode that derives from =verilog-mode= and adds...nothing.
+
+#+begin_src elisp
+  (define-derived-mode systemverilog-mode verilog-mode "systemverilog-mode")
+  (provide 'systemverilog-mode)
+#+end_src
+
+This will ensure correct behavior both on export and while editing the
+Org source files.
