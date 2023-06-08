@@ -25,6 +25,7 @@ material serves as a prerequisite to these slides.
   | In progress | =interfaces.pdf=          |   |
   |             | =modules.pdf=             |   |
   |             | =packages.pdf=            |   |
+  |             | =processes.pdf=           |   |
   |             | =types-structs-enums.pdf= |   |
   |             | =unique-case-if.pdf=      |   |
 
