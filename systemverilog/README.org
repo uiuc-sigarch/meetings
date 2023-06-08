@@ -1,0 +1,14 @@
+* [WIP] SIGARCH's SystemVerilog Presentation Cache
+
+I'm currently writing a series of presentations on learning
+SystemVerilog in a structured way. The anticipated use-case is SIGARCH
+workshops, scheduled to start in Fall 2023.
+
+** Prerequisites
+These presentations assume you have an ECE120/CS233-level of digital
+electronics understanding. If you don't know most of the terms: logic
+gate, combinational logic, critical path, flip-flop, latch, FSMs, this
+is probably not a good place to start.
+
+SIGARCH has meetings that introduce basic digital electronics, that
+material serves as a prerequisite to these slides.
