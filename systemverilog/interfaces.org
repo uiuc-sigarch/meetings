@@ -33,7 +33,7 @@
   #+begin_src systemverilog
     interface axi_stream;
       logic clk;
-      logic reset;
+      logic rst;
       logic valid;
       logic ready;
       // ... and so on
@@ -46,7 +46,7 @@
   #+begin_src systemverilog
     module dut (
       input logic       clk,
-      input logic       reset,
+      input logic       rst,
       // Input stream
       input logic       valid_i,
       input logic [7:0] data_i,
@@ -104,11 +104,76 @@
 - Verification benefits: interfaces can include tasks, functions,
   assertions.
 
+* Specifying directions: =modport=
+- Think back to the syntax at the beginning:
+  #+begin_src systemverilog
+    interface axi_stream;
+      logic clk;
+      logic rst;
+      logic valid;
+      logic ready;
+      // ... and so on
+    endinterface
+  #+end_src
+- This doesn't specify port directions!
+- Port directions are different (typically opposite) depending on
+  whether the module you're writing is the master or the slave.
+
+
+* Visually
+[[./images/interface_modports.pdf]]
+
+* For AXI Stream (Handshaking)
+- Without defining and using =modport='s, all interface signals are
+  =inout= (bad).
+
+  #+begin_src systemverilog
+    interface axi_handshake;
+      logic valid;
+      logic ready;
+
+      modport master (
+        output valid,
+        input  ready
+      );
+
+      modport slave (
+        input  valid,
+        output ready
+      );
+    endinterface
+  #+end_src
+
+
+* Usage
 #+begin_src systemverilog
-  module dut (
+  module module_a (
     input logic       clk,
-    input logic       reset,
-    axi_stream.slave  data_in,
-    axi_stream.master data_out
+    input logic       rst,
+    axi_stream.master data_out,
+  );
+
+  module module_b (
+    input logic      clk,
+    input logic      rst,
+    axi_stream.slave data_in,
   );
 #+end_src
+
+To instantiate:
+#+begin_src systemverilog
+  axi_stream itf;
+  module_a module_a_i (.clk, .rst, .data_out(itf));
+  module_b module_b_i (.clk, .rst, .data_in(itf));
+#+end_src
+
+
+
+
+* Parametrizable Interfaces
+
+* Interface Ports
+
+* Verification using interfaces
+
+# * Clocking Blocks in Interfaces # move to clocking-block.org
