@@ -1,5 +1,10 @@
 #+title: An Introduction to SystemVerilog
 #+options: toc:nil
+#+subtitle: SystemVerilog Series
+#+date:
+#+author: =@nebu=
+#+include: ./org_header.org
+
 
 * Why SystemVerilog?
 - Modern computers are typically implemented using digital

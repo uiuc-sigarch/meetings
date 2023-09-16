@@ -1,5 +1,9 @@
 #+title: Interfaces
 #+options: toc:nil
+#+subtitle: SystemVerilog Series
+#+date:
+#+author: =@nebu=
+#+include: ./org_header.org
 
 # * Hooking it up
 # #+begin_src systemverilog
@@ -166,8 +170,6 @@ To instantiate:
   module_a module_a_i (.clk, .rst, .data_out(itf));
   module_b module_b_i (.clk, .rst, .data_in(itf));
 #+end_src
-
-
 
 
 * Parametrizable Interfaces

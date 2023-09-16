@@ -34,63 +34,27 @@
 
 # TODO: make images in lucidchart
 
-* Overview of Perceptrons and Related Math
-** Dot Products
-- A vector can be thought of as a list of numbers:[fn:4]
-  $\vec{a} = (a_{1}, a_2, a_3, \ldots, a_n)$
-  $\vec{b} = (b_{1}, b_2, b_3, \ldots, b_n)$
-- A dot product of two vectors $\vec{a}$ and $\vec{b}$ is defined as:
-  $$\vec{a} \cdot \vec{b} = \sum_{i=1}^n a_ib_i = a_1b_1 + a_2b_2 + \cdots + a_nb_n$$
-
-** Linear separability in $\mathbb{R}^2$
-Two sets of points (colored say red and blue) on the plane are
-*linearly separable* if there exists one line that separates
-the red points from the blue points.
-#+ATTR_LATEX: :width 0.4\textwidth
-[[./images/linear-sep.png]]
-
-** Linear separability, generalized
-- Generalizing to any $n$ dimensional space, sets of points are
-  linearly separable if there is a hyperplane that separates them.
-- In the language of convex hulls, two sets of points are linearly
-  separable if their convex hulls are disjoint.
-
-** Linear separability, formal definition
-\begin{definition}
-For sets of points $X_0$ and $X_1$ in some $n$ dimensional Euclidean
-space, $X_0$ and $X_1$ are linearly separable if there are $n+1$ real
-numbers $\vec{w} = (w_i)_{i\in[1,n]}$ and $k$, such that for all
-$\vec{x} \in X_0$, $\vec{x} \cdot\vec{w} > k$ and for all $\vec{x} \in
-X_1$, $\vec{x} \cdot \vec{w} < k$.
-\end{definition}
-
-** Linear separability of Boolean functions
-A Boolean function $f : \{0, 1\}^n \to \{0, 1\}$ is linearly separable
-if the hypercube of dimension $n$ with vertices assigned to outputs of
-the function is linearly separable.
-[[./images/bool_lin_sep.pdf]]
-
-** Linear Classifiers
-- A linear classifier is a function that, given two sets of data and a
-  new data point, decides which set the data point belongs to.
-- Given a vector of weights $\vec{w}$ and a feature vector $\vec{x}$,
-  the classifier computes an output score $y$, given by
-  $$y = f(\vec{w} \cdot \vec{x})$$
-- Typically $f$ is a threshold function, which is simply a
-  unit step function shifted by $\theta$:
-  $$f(\vec{w}\cdot\vec{x}) = \begin{cases}1, & \vec{w}\cdot\vec{x} > \theta\\0, & \text{otherwise} \end{cases}$$
-
-** Perceptrons
-- A perceptron is a /learning/ linear classifier.
-- It outputs a classification, but also uses the /correct/
-  answer to update the weight vector $\vec{w}$.
-- It can be viewed as an artificial neuron whose activation function
-  is the unit step function.
-#+ATTR_LATEX: :width 0.4\textwidth
-[[./images/perceptron.png]]
-
-
 * Overview of Branch Prediction
+
+** What is a program counter?
+- CPUs (logically) work by executing instructions one by one.
+- The program counter points to the next instruction that the
+  processor should execute.
+- Typically, the PC just increments sequentially.
+- Except...when?
+
+** What is a branch?
+- Consider:
+  #+begin_src C
+    if (x == 2) {/* Do something */}
+    else {/* Do something else */}
+  #+end_src
+
+- This compiles down to an instruction called a "conditional branch",
+  which changes the PC to some other value.
+
+- The PC "jumps" to some other instruction.
+
 
 ** Pipelining Requires /Prediction/
 - Imagine a conditional branch instruction enters the pipeline.
@@ -176,6 +140,61 @@ the function is linearly separable.
 - Note that a primary limitation of perceptrons is that they can only
   learn linearly separable functions (i.e., a perceptron couldn't
   correctly learn the XOR function).
+
+* Overview of Perceptrons and Related Math
+** Dot Products
+- A vector can be thought of as a list of numbers:[fn:4]
+  $\vec{a} = (a_{1}, a_2, a_3, \ldots, a_n)$
+  $\vec{b} = (b_{1}, b_2, b_3, \ldots, b_n)$
+- A dot product of two vectors $\vec{a}$ and $\vec{b}$ is defined as:
+  $$\vec{a} \cdot \vec{b} = \sum_{i=1}^n a_ib_i = a_1b_1 + a_2b_2 + \cdots + a_nb_n$$
+
+** Linear separability in $\mathbb{R}^2$
+Two sets of points (colored say red and blue) on the plane are
+*linearly separable* if there exists one line that separates
+the red points from the blue points.
+#+ATTR_LATEX: :width 0.4\textwidth
+[[./images/linear-sep.png]]
+
+** Linear separability, generalized
+- Generalizing to any $n$ dimensional space, sets of points are
+  linearly separable if there is a hyperplane that separates them.
+- In the language of convex hulls, two sets of points are linearly
+  separable if their convex hulls are disjoint.
+
+** Linear separability, formal definition
+\begin{definition}
+For sets of points $X_0$ and $X_1$ in some $n$ dimensional Euclidean
+space, $X_0$ and $X_1$ are linearly separable if there are $n+1$ real
+numbers $\vec{w} = (w_i)_{i\in[1,n]}$ and $k$, such that for all
+$\vec{x} \in X_0$, $\vec{x} \cdot\vec{w} > k$ and for all $\vec{x} \in
+X_1$, $\vec{x} \cdot \vec{w} < k$.
+\end{definition}
+
+** Linear separability of Boolean functions
+A Boolean function $f : \{0, 1\}^n \to \{0, 1\}$ is linearly separable
+if the hypercube of dimension $n$ with vertices assigned to outputs of
+the function is linearly separable.
+[[./images/bool_lin_sep.pdf]]
+
+** Linear Classifiers
+- A linear classifier is a function that, given two sets of data and a
+  new data point, decides which set the data point belongs to.
+- Given a vector of weights $\vec{w}$ and a feature vector $\vec{x}$,
+  the classifier computes an output score $y$, given by
+  $$y = f(\vec{w} \cdot \vec{x})$$
+- Typically $f$ is a threshold function, which is simply a
+  unit step function shifted by $\theta$:
+  $$f(\vec{w}\cdot\vec{x}) = \begin{cases}1, & \vec{w}\cdot\vec{x} > \theta\\0, & \text{otherwise} \end{cases}$$
+
+** Perceptrons
+- A perceptron is a /learning/ linear classifier.
+- It outputs a classification, but also uses the /correct/
+  answer to update the weight vector $\vec{w}$.
+- It can be viewed as an artificial neuron whose activation function
+  is the unit step function.
+#+ATTR_LATEX: :width 0.4\textwidth
+[[./images/perceptron.png]]
 
 * The Paper
 

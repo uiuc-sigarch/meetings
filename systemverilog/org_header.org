@@ -1,0 +1,29 @@
+#+BEAMER_THEME: sigarch
+# #+options: toc:nil
+#+latex_class_options: [aspectratio=169, 10pt]
+#+LATEX_HEADER:\usepackage{tcolorbox}
+#+LATEX_HEADER: \usepackage{forest}
+#+LATEX_HEADER:\usepackage{etoolbox}
+#+LATEX_HEADER:\BeforeBeginEnvironment{minted}{\begin{tcolorbox}[colback=black,colframe=black]}%
+#+LATEX_HEADER:\AfterEndEnvironment{minted}{\end{tcolorbox}}%
+#+LATEX_HEADER:\usemintedstyle{native}
+# #+options: H:2
+
+#+LATEX_HEADER:% Add support for \subsubsectionpage
+#+LATEX_HEADER:\def\subsubsectionname{\translate{Subsubsection}}
+#+LATEX_HEADER:\def\insertsubsubsectionnumber{\arabic{subsubsection}}
+#+LATEX_HEADER:\setbeamertemplate{subsubsection page}
+#+LATEX_HEADER:{
+#+LATEX_HEADER:\begin{centering}
+#+LATEX_HEADER:{\usebeamerfont{subsubsection name}\usebeamercolor[fg]{subsubsection name}\subsubsectionname~\insertsubsubsectionnumber}
+#+LATEX_HEADER:\vskip1em\par
+#+LATEX_HEADER:\begin{beamercolorbox}[sep=4pt,center]{part title}
+#+LATEX_HEADER:\usebeamerfont{subsubsection title}\insertsubsubsection\par
+#+LATEX_HEADER:\end{beamercolorbox}
+#+LATEX_HEADER:\end{centering}
+#+LATEX_HEADER:}
+#+LATEX_HEADER:\def\subsubsectionpage{\usebeamertemplate*{subsubsection page}}
+#+LATEX_HEADER:
+#+LATEX_HEADER:\AtBeginSection{\frame{\sectionpage}}
+#+LATEX_HEADER:\AtBeginSubsection{\frame{\subsectionpage}}
+#+LATEX_HEADER:\AtBeginSubsubsection{\frame{\subsubsectionpage}}
